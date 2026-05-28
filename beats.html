@@ -33,21 +33,20 @@
             <h2>BEAT CATALOG</h2>
             <p>Instant delivery</p>
         </div>
-
-        <!-- FILTROS POR GÉNERO -->
-        <div class="genre-filters">
-            <button class="filter-btn active">ALL</button>
-            <button class="filter-btn">DARK TRAP</button>
-            <button class="filter-btn">DRILL</button>
-            <button class="filter-btn">PHONK</button>
-            <button class="filter-btn">BOOM BAP</button>
+        
+        <!-- FILTROS DE MOOD / CATEGORÍAS DEFINITIVOS -->
+        <div class="filters-container">    
+            <button class="filter-btn active" data-mood="all">ALL</button>
+            <button class="filter-btn" data-mood="hard">HARD</button>
+            <button class="filter-btn" data-mood="melodic">MELODIC</button>
+            <button class="filter-btn" data-mood="experimental">EXPERIMENTAL</button>
         </div>
 
         <!-- LISTA NATIVA DE BEATS -->
         <div class="beats-list">
             
-            <!-- FILA BEAT 1 -->
-            <div class="beat-row">
+            <!-- FILA BEAT 1 (HARD) -->
+            <div class="beat-row" data-mood="hard">
                 <div class="beat-main">
                     <button class="play-btn">▶</button>
                     <div class="beat-details">
@@ -62,8 +61,8 @@
                 </div>
             </div>
 
-            <!-- FILA BEAT 2 -->
-            <div class="beat-row">
+            <!-- FILA BEAT 2 (MELODIC) -->
+            <div class="beat-row" data-mood="melodic">
                 <div class="beat-main">
                     <button class="play-btn">▶</button>
                     <div class="beat-details">
@@ -78,8 +77,8 @@
                 </div>
             </div>
 
-            <!-- FILA BEAT 3 -->
-            <div class="beat-row">
+            <!-- FILA BEAT 3 (EXPERIMENTAL) -->
+            <div class="beat-row" data-mood="experimental">
                 <div class="beat-main">
                     <button class="play-btn">▶</button>
                     <div class="beat-details">
@@ -101,6 +100,9 @@
     <footer>
         <p>&copy; 2026 LUVBESLY. All Rights Reserved.</p>
     </footer>
+
+    <!-- LÓGICA DE JAVASCRIPT -->
+    <script type="module" src="js/main.js"></script>
 
 </body>
 </html>
