@@ -258,3 +258,178 @@ footer {
         grid-template-columns: 1fr; /* Un solo vídeo por fila en pantallas muy pequeñas */
     }
 }
+
+/* ==========================================
+   SECCIÓN DE BEATS (PÁGINA BEATS.HTML NATIVA)
+   ========================================== */
+
+.beats-container {
+    flex: 1;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.beats-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.beats-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.beats-header p {
+    color: #444444;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* FILTROS DE GÉNERO */
+.genre-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid #222222;
+    color: #666666;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    color: #ffffff;
+    border-color: #ffffff;
+    background-color: #111111;
+}
+
+/* LISTA DE FILAS (CATÁLOGO) */
+.beats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.beat-row {
+    background-color: #000000;
+    border: 1px solid #111111;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.beat-row:hover {
+    border-color: #333333;
+    transform: translateX(4px); /* Ligero desplazamiento estético */
+}
+
+/* DETALLES DEL BEAT (IZQUIERDA) */
+.beat-main {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.play-btn {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 4px; /* Centrar el icono de play */
+    transition: transform 0.2s ease;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+}
+
+.beat-details h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.beat-bpm {
+    font-size: 0.8rem;
+    color: #666666;
+    margin-right: 15px;
+}
+
+.beat-tag {
+    font-size: 0.8rem;
+    color: #444444;
+}
+
+/* PRECIO Y BOTÓN (DERECHA) */
+.beat-actions {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.beat-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.buy-btn {
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 12px 25px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.buy-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* RESPONSIVE PARA MÓVILES */
+@media (max-width: 768px) {
+    .beat-row {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    .beat-main {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .beat-actions {
+        width: 100%;
+        justify-content: space-between;
+        border-top: 1px solid #111111;
+        padding-top: 15px;
+    }
+}
