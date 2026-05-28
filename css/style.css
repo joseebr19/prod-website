@@ -433,3 +433,251 @@ footer {
         padding-top: 15px;
     }
 }
+
+/* ==========================================
+   SECCIÓN DE SOUND KITS (TIENDA Y PRODUCTO)
+   ========================================== */
+
+.kits-container, .product-container {
+    flex: 1;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.kits-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.kits-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.kits-header p {
+    color: #444444;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+/* GRID DE TIENDA */
+.kits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.kit-card {
+    background-color: #000000;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.kit-card:hover {
+    border-color: #333333;
+    transform: translateY(-4px);
+}
+
+/* Portadas de marcador de posición (reemplazables por imágenes en el futuro) */
+.kit-cover, .product-cover {
+    background: linear-gradient(135deg, #111111 0%, #000000 100%);
+    border-bottom: 1px solid #111111;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kit-cover span, .product-cover span {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #222222;
+}
+
+.free-kit {
+    background: linear-gradient(135deg, #1c1c1c 0%, #0a0a0a 100%);
+}
+
+.kit-info {
+    padding: 25px;
+}
+
+.kit-info h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.kit-info p {
+    color: #555555;
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.kit-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kit-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.kit-price.free {
+    color: #ffffff;
+}
+
+.kit-btn {
+    background-color: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.kit-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.free-btn {
+    background-color: #ffffff;
+    color: #000000;
+    cursor: pointer;
+}
+
+.free-btn:hover {
+    background-color: #cccccc;
+}
+
+/* ==========================================
+   PÁGINA DETALLE DE PRODUCTO INTERNA
+   ========================================== */
+
+.product-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.product-cover {
+    height: 400px;
+    border: 1px solid #111111;
+    border-radius: 4px;
+}
+
+.kit-audio-preview {
+    margin-top: 25px;
+    background-color: #000000;
+    border: 1px solid #111111;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.kit-audio-preview p {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+.kit-audio-preview audio {
+    width: 100%;
+}
+
+/* Personalización del reproductor HTML5 nativo para que quede oscuro */
+audio::-webkit-media-controls-panel {
+    background-color: #111111;
+}
+
+.product-details h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.product-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.product-desc {
+    color: #aaaaaa;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.kit-content-list h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: #666666;
+    margin-bottom: 15px;
+}
+
+.kit-content-list ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.kit-content-list ul li {
+    font-size: 0.95rem;
+    color: #ffffff;
+}
+
+.buy-btn-large {
+    width: 100%;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.buy-btn-large:hover {
+    background-color: #cccccc;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE PRODUCTO */
+@media (max-width: 768px) {
+    .product-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .product-cover {
+        height: 300px;
+    }
+}
