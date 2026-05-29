@@ -343,6 +343,11 @@ footer {
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
+    
+    /* Configuración base para animación */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInBeat 0.4s ease forwards;
 }
 
 .beat-row:hover {
@@ -364,12 +369,15 @@ footer {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    font-size: 1.1rem;
+    font-size: 1rem; /* Bajamos un pelo el tamaño para que respire mejor en el centro */
     cursor: pointer;
-    display: flex;
+    
+    /* EL TRUCO DEL CENTRADO GEOMÉTRICO DEFECTIVO */
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding-left: 4px; /* Centrar el icono de play */
+    padding: 0; /* Eliminamos cualquier padding-left o rastro anterior */
+    
     transition: transform 0.2s ease;
 }
 
@@ -734,6 +742,19 @@ footer {
     color: #888;
     line-height: 1.7;
     margin: 0;
+}
+
+/* --- NUEVAS REGLAS AGREGADAS DE UX/ACCESOS --- */
+.buy-link-btn {
+    text-decoration: none;
+    display: inline-block;
+}
+
+@keyframes fadeInBeat {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- RESPONSIVE PARA MÓVILES --- */

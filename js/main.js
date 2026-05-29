@@ -1,15 +1,14 @@
+import { CONFIG } from './config.js';
+
 // ==========================================
 // NÚCLEO PRINCIPAL DE LA WEB (MAIN.JS)
 // ==========================================
 
-// Nos aseguramos de que todo el HTML esté cargado antes de arrancar la lógica
 document.addEventListener('DOMContentLoaded', () => {
     console.log("SYSTEM: BESLY platform core loaded successfully.");
 
-    // Detectamos la ruta de la página actual en el navegador
     const currentPage = window.location.pathname;
 
-    // Ejecutamos la función correcta según la página donde esté el usuario
     if (currentPage.includes('beats.html')) {
         initBeatsPage();
     } else if (currentPage.includes('kits.html') || currentPage.includes('kit-')) {
@@ -24,36 +23,140 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 
 function initBeatsPage() {
-    console.log("MODULE: Beats catalogue initialized. Ready for BeatStars API integration.");
+    console.log("MODULE: Launching automated beats engine with luvbesly Shop redirection...");
 
-    // Seleccionamos los elementos del HTML necesarios
+    const beatsList = document.getElementById('beats-list');
+    if (!beatsList) return;
+
+    // 1. BASE DE DATOS LOCAL DE BEATS (SNIPPETS Y ENLACES DE COMPRA REALES)
+    const beatsData = [
+        {
+            id: 1,
+            title: "DARKNESS",
+            bpm: 140,
+            mood: "hard",
+            tag: "#DarkTrap",
+            price: "$29.95",
+            audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 
+            buyUrl: "https://www.beatstars.com/luvbesly" 
+        },
+        {
+            id: 2,
+            title: "EMPIRE",
+            bpm: 144,
+            mood: "melodic",
+            tag: "#Drill",
+            price: "$29.95",
+            audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+            buyUrl: "https://www.beatstars.com/luvbesly"
+        },
+        {
+            id: 3,
+            title: "TOXIC AUDIO",
+            bpm: 130,
+            mood: "experimental",
+            tag: "#Phonk",
+            price: "$34.95",
+            audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+            buyUrl: "https://www.beatstars.com/luvbesly"
+        },
+        {
+            id: 4,
+            title: "VAMP",
+            bpm: 150,
+            mood: "hard",
+            tag: "#Rage #PlayboiCarti",
+            price: "$39.95",
+            audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+            buyUrl: "https://www.beatstars.com/luvbesly"
+        }
+    ];
+
+    // INSTANCIA DE AUDIO GLOBAL ÚNICA
+    let currentAudio = new Audio();
+    let currentPlayingId = null;
+
+    // 2. MOTOR DE RENDERIZADO
+    function renderBeats(filter = "all") {
+        beatsList.innerHTML = "";
+
+        const filteredBeats = beatsData.filter(beat => filter === "all" || beat.mood === filter);
+
+        if (filteredBeats.length === 0) {
+            beatsList.innerHTML = `<p style="text-align: center; color: #444444; padding: 20px; font-family: 'Orbitron', sans-serif;">NO BEATS FOUND</p>`;
+            return;
+        }
+
+        filteredBeats.forEach(beat => {
+            const beatRow = document.createElement('div');
+            beatRow.classList.add('beat-row');
+            beatRow.setAttribute('data-mood', beat.mood);
+
+            const isPlaying = (beat.id === currentPlayingId && !currentAudio.paused);
+            const btnIcon = isPlaying ? "⏸" : "▶";
+
+            beatRow.innerHTML = `
+                <div class="beat-main">
+                    <button class="play-btn" data-id="${beat.id}">${btnIcon}</button>
+                    <div class="beat-details">
+                        <h3>${beat.title}</h3>
+                        <span class="beat-bpm">${beat.bpm} BPM</span>
+                        <span class="beat-tag">${beat.tag}</span>
+                    </div>
+                </div>
+                <div class="beat-actions">
+                    <span class="beat-price">${beat.price}</span>
+                    <a href="${beat.buyUrl}" target="_blank" class="buy-link-btn">
+                        <button class="buy-btn">BUY LICENSE</button>
+                    </a>
+                </div>
+            `;
+            
+            const playBtn = beatRow.querySelector('.play-btn');
+            playBtn.addEventListener('click', () => toggleAudio(beat, playBtn));
+
+            beatsList.appendChild(beatRow);
+        });
+    }
+
+    // 3. LÓGICA DE CONTROL DEL REPRODUCTOR
+    function toggleAudio(beat, clickedBtn) {
+        if (currentPlayingId === beat.id) {
+            if (currentAudio.paused) {
+                currentAudio.play();
+                clickedBtn.innerText = "⏸";
+            } else {
+                currentAudio.pause();
+                clickedBtn.innerText = "▶";
+            }
+        } else {
+            currentAudio.pause();
+            currentAudio.src = beat.audioUrl;
+            currentAudio.play();
+            currentPlayingId = beat.id;
+
+            document.querySelectorAll('.play-btn').forEach(btn => btn.innerText = "▶");
+            clickedBtn.innerText = "⏸";
+        }
+    }
+
+    currentAudio.addEventListener('ended', () => {
+        currentPlayingId = null;
+        document.querySelectorAll('.play-btn').forEach(btn => btn.innerText = "▶");
+    });
+
+    renderBeats();
+
+    // 4. CONTROL DE FILTROS (HARD, MELODIC, EXPERIMENTAL)
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const beatRows = document.querySelectorAll('.beat-row');
-
-    // Escuchamos los clics en cada uno de los botones de filtro
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            
-            // 1. Gestión de estilos del botón activo
-            document.querySelector('.filter-btn.active').classList.remove('active');
+            const activeBtn = document.querySelector('.filter-btn.active');
+            if (activeBtn) activeBtn.classList.remove('active');
             button.classList.add('active');
 
-            // 2. Capturamos el mood seleccionado
             const selectedMood = button.getAttribute('data-mood');
-            console.log("ACTION: User requested filtering by mood: " + selectedMood);
-
-            // 3. Lógica de filtrado visual de las filas de beats
-            beatRows.forEach(row => {
-                // Obtenemos el mood de esta fila en concreto
-                const rowMood = row.getAttribute('data-mood');
-
-                // Si el usuario pulsa 'all', mostramos todo. Si no, comparamos los moods.
-                if (selectedMood === 'all' || selectedMood === rowMood) {
-                    row.style.display = 'flex'; // Muestra la fila
-                } else {
-                    row.style.display = 'none'; // Oculta la fila
-                }
-            });
+            renderBeats(selectedMood);
         });
     });
 }
@@ -61,7 +164,6 @@ function initBeatsPage() {
 function initKitsPage() {
     console.log("MODULE: Sound Kits store initialized. Ready for product data mapping.");
 
-    // Base de datos de tus Sound Kits
     const soundKitsData = [
         {
             id: 1,
@@ -88,14 +190,12 @@ function initKitsPage() {
     const kitsGrid = document.getElementById('kits-grid');
     if (!kitsGrid) return;
 
-    // Limpiamos el contenedor por seguridad antes de rellenar
     kitsGrid.innerHTML = "";
 
     soundKitsData.forEach(kit => {
         const kitCard = document.createElement('div');
         kitCard.classList.add('kit-card');
 
-        // Generamos la estructura condicional según si el kit es gratuito o de pago
         if (kit.isFree) {
             kitCard.innerHTML = `
                 <a href="${kit.link}" class="kit-link">
@@ -138,21 +238,17 @@ async function initVideosPage() {
     const videosGrid = document.getElementById('videos-grid');
     if (!videosGrid) return;
 
-    // =========================================================
-    // CONFIGURACIÓN DE CREDENCIALES REALES
-    // =========================================================
-    const API_KEY = "AIzaSyB3HLWSCg0EKacJzZ-qxzZKqGD5VrOZjgo"; 
+    // LEEMOS LA LLAVE DESDE EL ARCHIVO EXTERNO CONFIG.JS PROTEGIDO POR .GITIGNORE
+    const API_KEY = CONFIG.YOUTUBE_API_KEY; 
     const CHANNEL_ID = "UCSrZwcNfFed4TqlEaQS6IAQ";
     const MAX_RESULTS = 3; 
 
-    // Loader visual sutil mientras responde la API
     videosGrid.innerHTML = `
         <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #444444; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">
             LOADING LIVE FEED...
         </div>
     `;
 
-    // URL estructurada para pedir a YouTube los vídeos más recientes de tu canal
     const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}&type=video`;
 
     try {
@@ -165,7 +261,6 @@ async function initVideosPage() {
         const data = await response.json();
         const liveVideos = data.items;
 
-        // Limpiamos el texto de carga antes de pintar los resultados
         videosGrid.innerHTML = "";
 
         if (!liveVideos || liveVideos.length === 0) {
@@ -173,7 +268,6 @@ async function initVideosPage() {
             return;
         }
 
-        // Mapeamos e inyectamos los vídeos de forma dinámica
         liveVideos.forEach(video => {
             const videoId = video.id.videoId;
             const videoTitle = video.snippet.title;
@@ -203,7 +297,6 @@ async function initVideosPage() {
 
     } catch (error) {
         console.error("CIBERSEGURIDAD / API ERROR:", error);
-        // Fallback elegante en la interfaz en caso de error o límite de cuota superado
         videosGrid.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; color: #ff3333; padding: 20px; font-size: 0.9rem; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
                 FEED TEMPORARILY UNAVAILABLE. PLEASE CHECK BACK LATER.
