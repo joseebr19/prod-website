@@ -1,4 +1,4 @@
-import { CONFIG } from './config.js';
+import { CONFIG } from '../config.js';
 
 // ==========================================
 // NÚCLEO PRINCIPAL DE LA WEB (MAIN.JS)

@@ -151,44 +151,13 @@ footer {
 }
 
 /* ==========================================
-   RESPONSIVE OPTIMIZATION
-   ========================================== */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px;
-    }
-    nav ul {
-        gap: 20px;
-    }
-    .hero-content h1 {
-        font-size: 2.3rem;
-        letter-spacing: 2px;
-    }
-    .hero-content p {
-        font-size: 0.9rem;
-        margin-bottom: 35px;
-    }
-    .cta-buttons {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-    }
-    .btn {
-        width: 100%;
-        max-width: 280px;
-    }
-}
-
-/* ==========================================
-   SECCIÓN DE VÍDEOS (PÁGINA VIDEOS.HTML)
+   SECCIÓN DE VÍDEOS (MINIMAL PRO FLUIDO)
    ========================================== */
 .videos-container {
     flex: 1;
     max-width: 1200px;
     width: 100%;
-    margin: 0 auto; /* Centra el contenido en pantallas grandes */
+    margin: 0 auto;
     padding: 60px 20px;
 }
 
@@ -210,26 +179,31 @@ footer {
     letter-spacing: 1px;
 }
 
-/* La cuadrícula mágica: se adapta sola al tamaño de la pantalla */
 .videos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 30px; /* Espacio entre los cuadros de vídeo */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px; /* Más espacio para que respiren las portadas */
 }
 
 .video-card {
-    background-color: #000000; /* Fondo negro puro para cada tarjeta */
-    border: 1px solid #111111;
-    border-radius: 4px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+    background: transparent; /* Eliminamos el fondo gris rígido */
+    border: none; /* Quitamos bordes artificiales */
+    border-radius: 0;
+    overflow: visible;
+    transition: transform 0.3s ease;
 }
 
-/* Truco CSS para que los reproductores de YouTube mantengan siempre el formato 16:9 y no se deformen */
+.video-card:hover {
+    transform: scale(1.02); /* Escala suave minimalista */
+}
+
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
-    height: 0;
+    width: 100%;
+    padding-top: 56.25%; /* Relación de aspecto 16:9 exacta de YouTube */
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .video-wrapper iframe {
@@ -238,36 +212,25 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
 }
 
 .video-info {
-    padding: 20px;
+    padding: 15px 0 0 0; /* Sin paddings internos que encajonen el texto */
 }
 
 .video-info h3 {
+    font-family: 'Montserrat', sans-serif;
     font-size: 0.95rem;
-    font-weight: 500;
-    line-height: 1.4;
-    color: #cccccc;
+    font-weight: 500; /* Texto más elegante y fino */
+    line-height: 1.5;
+    color: #cccccc; /* Gris claro premium */
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
 }
 
-/* Efecto al pasar el ratón por encima del cuadro de vídeo */
-.video-card:hover {
-    border-color: #333333;
-    transform: translateY(-4px);
-}
-
 .video-card:hover .video-info h3 {
-    color: #ffffff; /* El título se ilumina en blanco puro */
-}
-
-/* Ajuste rápido para móviles en la cuadrícula */
-@media (max-width: 480px) {
-    .videos-grid {
-        grid-template-columns: 1fr; /* Un solo vídeo por fila en pantallas muy pequeñas */
-    }
+    color: #ffffff; /* Se ilumina en blanco fino al pasar por encima */
 }
 
 /* ==========================================
@@ -369,14 +332,14 @@ footer {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    font-size: 1rem; /* Bajamos un pelo el tamaño para que respire mejor en el centro */
+    font-size: 1rem;
     cursor: pointer;
     
     /* EL TRUCO DEL CENTRADO GEOMÉTRICO DEFECTIVO */
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 0; /* Eliminamos cualquier padding-left o rastro anterior */
+    padding: 0;
     
     transition: transform 0.2s ease;
 }
@@ -433,23 +396,9 @@ footer {
     color: #000000;
 }
 
-/* RESPONSIVE PARA MÓVILES */
-@media (max-width: 768px) {
-    .beat-row {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-    }
-    .beat-main {
-        flex-direction: column;
-        gap: 15px;
-    }
-    .beat-actions {
-        width: 100%;
-        justify-content: space-between;
-        border-top: 1px solid #111111;
-        padding-top: 15px;
-    }
+.buy-link-btn {
+    text-decoration: none;
+    display: inline-block;
 }
 
 /* ==========================================
@@ -596,7 +545,6 @@ footer {
     color: #ffffff;
 }
 
-/* --- BLOQUE SUPERIOR: PORTADA Y DETALLES --- */
 .kit-main-section {
     display: flex;
     gap: 50px;
@@ -629,7 +577,6 @@ footer {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-/* Variación exclusiva para el kit gratuito */
 .kit-main-cover.free-kit {
     border-color: #555;
     background: linear-gradient(135deg, #1f1f1f, #111);
@@ -664,7 +611,6 @@ footer {
     margin: 0 0 30px 0;
 }
 
-/* Rejilla de metadatos */
 .kit-meta-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -703,7 +649,6 @@ footer {
     border: 1px solid #444;
 }
 
-/* Botón de descarga */
 .download-main-btn {
     display: inline-block;
     background: #ffffff;
@@ -721,7 +666,6 @@ footer {
     transform: translateY(-2px);
 }
 
-/* --- SECCIÓN COMPATIBILIDAD --- */
 .kit-specs-section {
     background: #050505;
     border: 1px solid #111;
@@ -744,12 +688,9 @@ footer {
     margin: 0;
 }
 
-/* --- NUEVAS REGLAS AGREGADAS DE UX/ACCESOS --- */
-.buy-link-btn {
-    text-decoration: none;
-    display: inline-block;
-}
-
+/* ==========================================
+   ANIMACIONES GENERALES Y RESPONSIVE EXTRA
+   ========================================== */
 @keyframes fadeInBeat {
     to {
         opacity: 1;
@@ -757,7 +698,6 @@ footer {
     }
 }
 
-/* --- RESPONSIVE PARA MÓVILES --- */
 @media (max-width: 900px) {
     .kit-main-section {
         flex-direction: column;
@@ -770,5 +710,37 @@ footer {
     }
     .meta-value.free {
         margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+    nav ul {
+        gap: 20px;
+    }
+    .beat-row {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    .beat-main {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .beat-actions {
+        width: 100%;
+        justify-content: space-between;
+        border-top: 1px solid #111111;
+        padding-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .videos-grid {
+        grid-template-columns: 1fr;
     }
 }
