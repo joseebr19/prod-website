@@ -141,7 +141,7 @@ async function initVideosPage() {
     // =========================================================
     // CONFIGURACIÓN DE CREDENCIALES REALES
     // =========================================================
-    const API_KEY = "AIzaSyB9Cj8t0zKDEXeP6OI9aqB4-bxacRAl164"; 
+    const API_KEY = "AIzaSyB3HLWSCg0EKacJzZ-qxzZKqGD5VrOZjgo"; 
     const CHANNEL_ID = "UCSrZwcNfFed4TqlEaQS6IAQ";
     const MAX_RESULTS = 3; 
 
