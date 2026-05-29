@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>! LUVME DRUMKIT | luvbesly</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Orbitron:wght@800;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,60 +25,49 @@
         </nav>
     </header>
 
-    <!-- DETALLE DEL PRODUCTO REAL -->
-    <main class="product-container">
-        <div class="product-layout">
+    <main class="single-kit-container">
+        
+        <section class="kit-main-section">
+            <div class="kit-main-cover free-kit">
+                <span>LUVME</span>
+            </div>
             
-            <!-- Izquierda: Portada y Preview de Audio -->
-            <div class="product-media">
-                <div class="product-cover free-kit">
-                    <span>LUVME</span>
-                </div>
+            <div class="kit-main-details">
+                <span class="kit-badge">LATEST RELEASE</span>
+                <h1>! LUVME DRUMKIT</h1>
+                <p class="kit-tagline">Essential high-quality sounds for modern trap, phonk and underground beats.</p>
                 
-                <!-- REPRODUCTOR NATIVO DEL PREVIEW DEL KIT -->
-                <div class="kit-audio-preview">
-                    <p>🎧 LISTEN TO THE KIT PREVIEW:</p>
-                    <!-- Aquí luego meterás el archivo MP3 con los sonidos del kit sonando seguidos -->
-                    <audio controls src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
-                        Tu navegador no soporta audio nativo.
-                    </audio>
-                </div>
-            </div>
-
-            <!-- Derecha: Info, Desglose de Samples y Descarga -->
-            <div class="product-details">
-                <h2>! LUVME DRUMKIT [FREE]</h2>
-                <div class="product-price" style="color: #ffffff;">FREE DOWNLOAD</div>
-                
-                <p class="product-desc">
-                    Official underground drum library created by luvbesly. Hard-hitting drums and essential textures designed to cut through any mix without playing by their rules.
-                </p>
-
-                <!-- DESGLOSE REAL EXTRAÍDO DE TU CAPTURA -->
-                <div class="kit-content-list">
-                    <h3>KIT CONTENTS (94 TOTAL SAMPLES):</h3>
-                    <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <li>⚡ 14 x 808s</li>
-                        <li>🔥 9 x Claps</li>
-                        <li>💀 12 x Snares</li>
-                        <li>💎 17 x Hi-Hats (HH)</li>
-                        <li>🪐 10 x Open Hats (OH)</li>
-                        <li>🥁 8 x Kicks</li>
-                        <li>🔮 20 x Percs</li>
-                        <li>🗣️ 4 x Vox</li>
-                    </ul>
+                <div class="kit-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">PRICE</span>
+                        <span class="meta-value free">FREE</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">FORMAT</span>
+                        <span class="meta-value">24-BIT WAV</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">LICENSE</span>
+                        <span class="meta-value">100% ROYALTY-FREE</span>
+                    </div>
                 </div>
 
-                <!-- Botón de descarga directa -->
-                <button class="buy-btn-large" style="background-color: #ffffff; color: #000000;">DOWNLOAD FOR FREE</button>
+                <a href="#" class="download-main-btn">DOWNLOAD NOW</a>
             </div>
+        </section>
 
-        </div>
+        <section class="kit-specs-section">
+            <h2>COMPATIBILITY</h2>
+            <p>Compatible with any Digital Audio Workstation (DAW) including FL Studio, Ableton Live, Logic Pro, Cubase, Reaper, and more. Works seamlessly on both Windows and macOS with no external plugins required.</p>
+        </section>
+
     </main>
 
     <footer>
         <p>&copy; 2026 LUVBESLY. All Rights Reserved.</p>
     </footer>
+
+    <script type="module" src="js/main.js"></script>
 
 </body>
 </html>

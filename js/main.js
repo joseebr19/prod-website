@@ -132,54 +132,82 @@ function initKitsPage() {
     });
 }
 
-function initVideosPage() {
-    console.log("MODULE: Videos section initialized. Ready for YouTube API integration.");
-
-    // Base de datos de tus vídeos (Extrayendo el código identificador de la URL de YouTube)
-    const videosData = [
-        {
-            id: 1,
-            title: "BESLY x UNDERGROUND - \"DARKNESS\" | Hard Trap Type Beat",
-            youtubeId: "dQw4w9WgXcQ"
-        },
-        {
-            id: 2,
-            title: "CREATING A BEAT FROM SCRATCH | Studio Vlog #01",
-            youtubeId: "dQw4w9WgXcQ"
-        },
-        {
-            id: 3,
-            title: "EMPIRE - Aggressive Drill Instrumental",
-            youtubeId: "dQw4w9WgXcQ"
-        }
-    ];
+async function initVideosPage() {
+    console.log("MODULE: Launching live YouTube API channel connection...");
 
     const videosGrid = document.getElementById('videos-grid');
     if (!videosGrid) return;
 
-    // Limpiamos el contenedor por seguridad antes de rellenar
-    videosGrid.innerHTML = "";
+    // =========================================================
+    // CONFIGURACIÓN DE CREDENCIALES REALES
+    // =========================================================
+    const API_KEY = "AIzaSyB9Cj8t0zKDEXeP6OI9aqB4-bxacRAl164"; 
+    const CHANNEL_ID = "UCSrZwcNfFed4TqlEaQS6IAQ";
+    const MAX_RESULTS = 3; 
 
-    // Mapeamos los datos para inyectar cada tarjeta de vídeo
-    videosData.forEach(video => {
-        const videoCard = document.createElement('div');
-        videoCard.classList.add('video-card');
+    // Loader visual sutil mientras responde la API
+    videosGrid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #444444; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">
+            LOADING LIVE FEED...
+        </div>
+    `;
 
-        videoCard.innerHTML = `
-            <div class="video-wrapper">
-                <iframe 
-                    src="https://www.youtube.com/embed/${video.youtubeId}" 
-                    title="${video.title}" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-            <div class="video-info">
-                <h3>${video.title}</h3>
+    // URL estructurada para pedir a YouTube los vídeos más recientes de tu canal
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=${MAX_RESULTS}&type=video`;
+
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`YouTube API responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const liveVideos = data.items;
+
+        // Limpiamos el texto de carga antes de pintar los resultados
+        videosGrid.innerHTML = "";
+
+        if (!liveVideos || liveVideos.length === 0) {
+            videosGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #444444;">No videos found on this channel.</p>`;
+            return;
+        }
+
+        // Mapeamos e inyectamos los vídeos de forma dinámica
+        liveVideos.forEach(video => {
+            const videoId = video.id.videoId;
+            const videoTitle = video.snippet.title;
+
+            const videoCard = document.createElement('div');
+            videoCard.classList.add('video-card');
+
+            videoCard.innerHTML = `
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}" 
+                        title="${videoTitle}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <h3>${videoTitle}</h3>
+                </div>
+            `;
+
+            videosGrid.appendChild(videoCard);
+        });
+
+        console.log(`SYSTEM: YouTube live feed synchronized successfully. Rendered ${liveVideos.length} videos.`);
+
+    } catch (error) {
+        console.error("CIBERSEGURIDAD / API ERROR:", error);
+        // Fallback elegante en la interfaz en caso de error o límite de cuota superado
+        videosGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; color: #ff3333; padding: 20px; font-size: 0.9rem; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">
+                FEED TEMPORARILY UNAVAILABLE. PLEASE CHECK BACK LATER.
             </div>
         `;
-
-        videosGrid.appendChild(videoCard);
-    });
+    }
 }
