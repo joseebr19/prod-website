@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initKitsPage();
     } else if (currentPage.includes('videos.html')) {
         initVideosPage();
+    } else if (currentPage.includes('vsts.html')) { // CONTROLADOR DE LA PESTAÑA VST
+        initVstsPage();
     }
 });
 
@@ -72,11 +74,9 @@ function initBeatsPage() {
         }
     ];
 
-    // INSTANCIA DE AUDIO GLOBAL ÚNICA
     let currentAudio = new Audio();
     let currentPlayingId = null;
 
-    // 2. MOTOR DE RENDERIZADO
     function renderBeats(filter = "all") {
         beatsList.innerHTML = "";
 
@@ -119,7 +119,6 @@ function initBeatsPage() {
         });
     }
 
-    // 3. LÓGICA DE CONTROL DEL REPRODUCTOR
     function toggleAudio(beat, clickedBtn) {
         if (currentPlayingId === beat.id) {
             if (currentAudio.paused) {
@@ -147,7 +146,6 @@ function initBeatsPage() {
 
     renderBeats();
 
-    // 4. CONTROL DE FILTROS (HARD, MELODIC, EXPERIMENTAL)
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -196,11 +194,12 @@ function initKitsPage() {
         const kitCard = document.createElement('div');
         kitCard.classList.add('kit-card');
 
+        // MÓDULO RENDERIZADO DRUMKIT GRATUITO
         if (kit.isFree) {
             kitCard.innerHTML = `
                 <a href="${kit.link}" class="kit-link">
-                    <div class="kit-cover free-kit">
-                        <span>${kit.coverText}</span>
+                    <div class="kit-cover free-kit" style="padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <img src="images/luvme-cover.png" alt="${kit.title}" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </a>
                 <div class="kit-info">
@@ -208,11 +207,12 @@ function initKitsPage() {
                     <p>${kit.description}</p>
                     <div class="kit-footer">
                         <span class="kit-price free">${kit.price}</span>
-                        <a href="${kit.link}" class="kit-btn free-btn" style="text-align: center;">${kit.btnText}</a>
+                        <a href="https://www.beatstars.com/luvbesly/sound-kits/271767" target="_blank" class="kit-btn free-btn" style="text-align: center;">${kit.btnText}</a>
                     </div>
                 </div>
             `;
         } else {
+            // Se mantiene por defecto para el kit bloqueado (Coming Soon)
             kitCard.innerHTML = `
                 <div class="kit-cover">
                     <span>${kit.coverText}</span>
@@ -238,7 +238,6 @@ async function initVideosPage() {
     const videosGrid = document.getElementById('videos-grid');
     if (!videosGrid) return;
 
-    // LEEMOS LA LLAVE DESDE EL ARCHIVO EXTERNO CONFIG.JS PROTEGIDO POR .GITIGNORE
     const API_KEY = CONFIG.YOUTUBE_API_KEY; 
     const CHANNEL_ID = "UCSrZwcNfFed4TqlEaQS6IAQ";
     const MAX_RESULTS = 3; 
@@ -303,4 +302,56 @@ async function initVideosPage() {
             </div>
         `;
     }
+}
+
+// ==========================================
+// NUEVO MÓDULO: ARCHIVO DE VSTs & LOST MEDIA
+// ==========================================
+function initVstsPage() {
+    console.log("MODULE: Launching VST Archive core engine...");
+
+    const vstsData = [
+        {
+            id: 1,
+            title: "VINTAGE SYNTH 2004 (Lost Media)",
+            description: "Rare digital synthesizer from the early 2000s scene. Recovered and hosted exclusively for underground creators.",
+            system: "WIN / MAC",
+            downloadUrl: "https://mega.nz/file/tu_enlace_de_mega", 
+            coverText: "LOST MEDIA"
+        },
+        {
+            id: 2,
+            title: "VALHALLA SUPERMASSIVE",
+            description: "The ultimate free plugin for massive delays and cosmic reverbs. Direct official download.",
+            system: "WIN / MAC",
+            downloadUrl: "https://valhalladsp.com/shop/reverbs/valhalla-supermassive/",
+            coverText: "REVERB"
+        }
+    ];
+
+    const vstsGrid = document.getElementById('vsts-grid');
+    if (!vstsGrid) return;
+
+    vstsGrid.innerHTML = "";
+
+    vstsData.forEach(vst => {
+        const vstCard = document.createElement('div');
+        vstCard.classList.add('kit-card');
+
+        vstCard.innerHTML = `
+            <div class="kit-cover free-kit">
+                <span>${vst.coverText}</span>
+            </div>
+            <div class="kit-info">
+                <h3>${vst.title}</h3>
+                <p>${vst.description}</p>
+                <div class="kit-footer">
+                    <span class="kit-price" style="font-size: 0.75rem; color: #666; font-family: 'Orbitron', sans-serif;">${vst.system}</span>
+                    <a href="${vst.downloadUrl}" target="_blank" class="kit-btn free-btn" style="text-align: center;">GET VST</a>
+                </div>
+            </div>
+        `;
+
+        vstsGrid.appendChild(vstCard);
+    });
 }
