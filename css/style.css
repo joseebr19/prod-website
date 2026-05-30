@@ -402,7 +402,7 @@ footer {
 }
 
 /* ==========================================
-   SECCIÓN DE SOUND KITS (TIENDA GENERAL)
+   SECCIÓN DE SOUND KITS & VSTS (ESTRUCTURA DE TIENDA)
    ========================================== */
 .kits-container {
     flex: 1;
@@ -442,6 +442,9 @@ footer {
     border: 1px solid #111111;
     border-radius: 4px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column; /* Alineación de tarjeta en modo columna flex */
+    height: 100%; /* Permite simetría de altura en todo el grid */
     transition: all 0.3s ease;
 }
 
@@ -458,6 +461,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0; /* Impide que la imagen o la portada se deforme verticalmente */
 }
 
 .kit-cover span {
@@ -472,8 +476,12 @@ footer {
     background: linear-gradient(135deg, #1c1c1c 0%, #0a0a0a 100%);
 }
 
+/* CONTENEDOR DE DATOS OPTIMIZADO PARA ALINEACIÓN VERTICAL */
 .kit-info {
     padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Absorbe dinámicamente el alto para estirar la caja de texto */
 }
 
 .kit-info h3 {
@@ -481,19 +489,38 @@ footer {
     font-size: 1rem;
     letter-spacing: 1px;
     margin-bottom: 8px;
+    
+    /* Control de línea única estricto */
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 1.4em;
 }
 
 .kit-info p {
     color: #555555;
     font-size: 0.85rem;
-    margin-bottom: 25px;
     line-height: 1.4;
+    margin-bottom: 25px;
+    
+    /* Control de dos líneas estricto */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 2.8em;
 }
 
+/* FOOTER ANCLADO DEFECTIVAMENTE AL FONDO */
 .kit-footer {
+    margin-top: auto; /* Empuja el bloque de botones abajo del todo de forma sincronizada */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .kit-price {

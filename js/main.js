@@ -194,7 +194,6 @@ function initKitsPage() {
         const kitCard = document.createElement('div');
         kitCard.classList.add('kit-card');
 
-        // MÓDULO RENDERIZADO DRUMKIT GRATUITO
         if (kit.isFree) {
             kitCard.innerHTML = `
                 <a href="${kit.link}" class="kit-link">
@@ -212,7 +211,6 @@ function initKitsPage() {
                 </div>
             `;
         } else {
-            // Se mantiene por defecto para el kit bloqueado (Coming Soon)
             kitCard.innerHTML = `
                 <div class="kit-cover">
                     <span>${kit.coverText}</span>
@@ -305,53 +303,171 @@ async function initVideosPage() {
 }
 
 // ==========================================
-// NUEVO MÓDULO: ARCHIVO DE VSTs & LOST MEDIA
+// MÓDULO: ARCHIVO DE VSTs & MOTOR BÚSQUEDA
 // ==========================================
 function initVstsPage() {
-    console.log("MODULE: Launching VST Archive core engine...");
+    console.log("MODULE: Launching VST Archive core engine with real-time search support...");
 
+    // 1. BASE DE DATOS DE TUS PLUGINS (ORDEN COMPLETO, CORRELATIVO Y ADICIÓN UNIFICADA)
     const vstsData = [
         {
             id: 1,
-            title: "VINTAGE SYNTH 2004 (Lost Media)",
-            description: "Rare digital synthesizer from the early 2000s scene. Recovered and hosted exclusively for underground creators.",
+            title: "KILOHEARTS ULTIMATE BUNDLE",
+            description: "Complete collection of premium modular effects and host plugins.",
             system: "WIN / MAC",
-            downloadUrl: "https://mega.nz/file/tu_enlace_de_mega", 
-            coverText: "LOST MEDIA"
+            downloadUrl: "https://kilohearts.com/products/kilohearts_ultimate",
+            image: "images/vst-kilohearts.png",
+            coverText: "BUNDLE"
         },
         {
             id: 2,
-            title: "VALHALLA SUPERMASSIVE",
-            description: "The ultimate free plugin for massive delays and cosmic reverbs. Direct official download.",
+            title: "XFER RECORDS OTT",
+            description: "Legendary aggressive multiband upward/downward compressor plugin.",
             system: "WIN / MAC",
-            downloadUrl: "https://valhalladsp.com/shop/reverbs/valhalla-supermassive/",
+            downloadUrl: "https://splice.com/plugins/3788-ott-vst-au-by-xfer-records",
+            image: "images/vst-ott.png",
+            coverText: "DYNAMICS"
+        },
+        {
+            id: 3,
+            title: "KOMCOMPLETE START",
+            description: "Ultimate free production suite loaded with synths, instruments, and effects.",
+            system: "WIN / MAC",
+            downloadUrl: "https://www.native-instruments.com/es/products/komplete/bundles/komplete-start/",
+            image: "images/vst-komplete.png",
+            coverText: "BUNDLE"
+        },
+        {
+            id: 4,
+            title: "VALHALLA SUPERMASSIVE",
+            description: "Advanced free plugin for cosmic reverbs and massive delays.",
+            system: "WIN / MAC",
+            downloadUrl: "https://valhalladsp.com/shop/reverb/valhalla-supermassive/",
+            image: "images/vst-supermassive.png",
             coverText: "REVERB"
+        },
+        {
+            id: 5,
+            title: "VITAL AUDIO",
+            description: "Spectral warping wavetable synthesizer for advanced modern sound design.",
+            system: "WIN / MAC",
+            downloadUrl: "https://vital.audio/",
+            image: "images/vst-vital.png",
+            coverText: "SYNTH"
+        },
+        {
+            id: 6,
+            title: "SURGE XT",
+            description: "Incredibly powerful open-source hybrid synthesizer engine.",
+            system: "WIN / MAC / LINUX",
+            downloadUrl: "https://surge-synthesizer.github.io/",
+            image: "images/vst-surge.png",
+            coverText: "SYNTH"
+        },
+        {
+            id: 7,
+            title: "ZL AUDIO EQUALIZER",
+            description: "Extremely clean and precise 16-band parametric equalizer plugin.",
+            system: "WIN / MAC / LINUX",
+            downloadUrl: "https://zl-audio.github.io/plugins/zlequalizer/",
+            image: "images/vst-zlequalizer.png",
+            coverText: "EQ"
+        },
+        {
+            id: 8,
+            title: "VLADG LIMITER N6",
+            description: "Architectural mastering limiter with precise dynamics and brickwall protection.",
+            system: "WIN / MAC",
+            downloadUrl: "https://www.tokyodawn.net/vladg-limiter-n6/",
+            image: "images/vst-limitern6.png",
+            coverText: "LIMITER"
+        },
+        {
+            id: 9,
+            title: "VARIETY OF SOUND FERRIC TDS MKII",
+            description: "Classic tape dynamics simulator designed to add warm analog saturation.",
+            system: "WIN",
+            downloadUrl: "https://varietyofsound.wordpress.com/2021/09/06/ferrictds-mkii-released/",
+            image: "images/vst-ferrictds.png",
+            coverText: "SATURATION"
+        },
+        {
+            id: 10,
+            title: "TOKYO DAWN RECORDS TDR NOVA",
+            description: "Parallel dynamic equalizer combining precise parametric control with compression.",
+            system: "WIN / MAC",
+            downloadUrl: "https://www.tokyodawn.net/tdr-nova/",
+            image: "images/vst-tdrnova.png",
+            coverText: "DYNEQ"
+        },
+        {
+            id: 11,
+            title: "DECENT SAMPLES DECENT SAMPLER",
+            description: "Lightweight and flexible sample playback engine for custom underground libraries.",
+            system: "WIN / MAC / LINUX",
+            downloadUrl: "https://www.decentsamples.com/product/decent-sampler-plugin/",
+            image: "images/vst-decentsampler.png",
+            coverText: "SAMPLER"
+        },
+        {
+            id: 12,
+            title: "FREAKSHOW INDUSTRIES BUNDLE",
+            description: "Collection of chaotic, anarchic audio effects for extreme glitch and anti-traditional sound design.",
+            system: "WIN / MAC",
+            downloadUrl: "https://freakshowindustries.com/",
+            image: "images/vst-freakshow.png",
+            coverText: "GLITCH"
         }
     ];
 
     const vstsGrid = document.getElementById('vsts-grid');
+    const searchInput = document.getElementById('vst-search');
     if (!vstsGrid) return;
 
-    vstsGrid.innerHTML = "";
+    // 2. FUNCIÓN DE RENDERIZADO FILTRADA
+    function renderVsts(searchTerm = "") {
+        vstsGrid.innerHTML = "";
 
-    vstsData.forEach(vst => {
-        const vstCard = document.createElement('div');
-        vstCard.classList.add('kit-card');
+        const filteredVsts = vstsData.filter(vst => 
+            vst.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
-        vstCard.innerHTML = `
-            <div class="kit-cover free-kit">
-                <span>${vst.coverText}</span>
-            </div>
-            <div class="kit-info">
-                <h3>${vst.title}</h3>
-                <p>${vst.description}</p>
-                <div class="kit-footer">
-                    <span class="kit-price" style="font-size: 0.75rem; color: #666; font-family: 'Orbitron', sans-serif;">${vst.system}</span>
-                    <a href="${vst.downloadUrl}" target="_blank" class="kit-btn free-btn" style="text-align: center;">GET VST</a>
+        if (filteredVsts.length === 0) {
+            vstsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #444444; padding: 40px; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">NO PLUGINS FOUND</p>`;
+            return;
+        }
+
+        filteredVsts.forEach(vst => {
+            const vstCard = document.createElement('div');
+            vstCard.classList.add('kit-card');
+
+            vstCard.innerHTML = `
+                <div class="kit-cover free-kit" style="padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <img src="${vst.image}" alt="${vst.title}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-            </div>
-        `;
+                <div class="kit-info">
+                    <h3>${vst.title}</h3>
+                    <p>${vst.description}</p>
+                    <div class="kit-footer">
+                        <span class="kit-price" style="font-size: 0.75rem; color: #666; font-family: 'Orbitron', sans-serif;">${vst.system}</span>
+                        <a href="${vst.downloadUrl}" target="_blank" class="kit-btn free-btn" style="text-align: center;">GET VST</a>
+                    </div>
+                </div>
+            `;
+            vstsGrid.appendChild(vstCard);
+        });
+    }
 
-        vstsGrid.appendChild(vstCard);
-    });
+    // 3. LISTENERS PARA EL INPUT DE BÚSQUEDA
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            renderVsts(e.target.value);
+        });
+
+        searchInput.addEventListener('focus', () => searchInput.style.borderColor = '#ffffff');
+        searchInput.addEventListener('blur', () => searchInput.style.borderColor = '#222222');
+    }
+
+    // Renderizado inicial al cargar la página
+    renderVsts();
 }
